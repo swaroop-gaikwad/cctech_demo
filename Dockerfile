@@ -16,7 +16,7 @@ COPY node-app/ ./
 FROM openjdk:17
 WORKDIR /app
 
-COPY --from=java-builder /app/target/my-app.jar ./my-app.jar
+COPY --from=java-builder /app/target/CCTechapp.jar ./CCTechapp.jar
 
 COPY --from=node-builder /app ./node-app
 
@@ -25,6 +25,6 @@ RUN cd node-app && npm install
 EXPOSE 8080  # Java App
 EXPOSE 3000  # Node.js App
 
-CMD java -jar my-app.jar & cd node-app && node server.js
+CMD java -jar CCTechapp.jar & cd node-app && node server.js
 
 
