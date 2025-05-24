@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_REGION = "us-east-1"  // Change to your AWS region
+        AWS_ECR_URL = "123456789012.dkr.ecr.us-east-1.amazonaws.com"
+        REPO_NAME = "my-app"
+        IMAGE_TAG = "latest"
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git 'https://github.com/YOUR_GITHUB_REPO.git'
+            }
+        }
+
+        stage('Login to AWS ECR') {
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-ecr-credentials']]) {
+                    sh 'aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ECR_URL'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $AWS_ECR_URL/$REPO_NAME:$IMAGE_TAG .'
+            }
+        }
+
+        stage('Push to ECR') {
+            steps {
+                sh 'docker push $AWS_ECR_URL/$REPO_NAME:$IMAGE_TAG'
+            }
+        }
+
+        stage('Verify Push') {
+            steps {
+                sh 'aws ecr describe-images --repository-name $REPO_NAME --region $AWS_REGION'
+            }
+        }
+    }
+}
