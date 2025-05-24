@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         AWS_REGION = "ap-south-1"  
-        AWS_ECR_URL = "12345.ecr.us-east-1.amazonaws.com"
+        AWS_ECR_URL = "12345Demo_CCTech.ecr.ap-south-1.amazonaws.com"
         REPO_NAME = "CCTech-app"
         IMAGE_TAG = "latest"
     }
@@ -34,6 +34,6 @@ pipeline {
                 sh 'docker push $AWS_ECR_URL/$REPO_NAME:$IMAGE_TAG'
             }
         }
-        
+
     }
 }
