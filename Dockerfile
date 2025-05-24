@@ -22,8 +22,8 @@ COPY --from=node-builder /app ./node-app
 
 RUN cd node-app && npm install
 
-EXPOSE 8080  # Java App
-EXPOSE 3000  # Node.js App
+EXPOSE 8080 
+EXPOSE 3000 
 
 CMD java -jar CCTechapp.jar & cd node-app && node server.js
 
