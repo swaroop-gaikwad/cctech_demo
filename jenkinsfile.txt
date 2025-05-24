@@ -4,7 +4,7 @@ pipeline {
     environment {
         AWS_REGION = "ap-south-1"  
         AWS_ECR_URL = "123456789012.dkr.ecr.us-east-1.amazonaws.com"
-        REPO_NAME = "my-app"
+        REPO_NAME = "CCTech-app"
         IMAGE_TAG = "latest"
     }
 
